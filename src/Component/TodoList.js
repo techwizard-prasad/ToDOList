@@ -1,7 +1,6 @@
 import React from "react";
 import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
-import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 
 import Item from "./Item.js";
@@ -111,23 +110,24 @@ class TodoList extends React.Component {
           )}
         </div>
 
-        <Grid container>
+        {/* <Grid container>
           <Grid item md={10} sm={6} xs={3}></Grid>
-          <Grid item md={2} sm={6} xs={9}>
-            {this.state.showPopup && (
-              <AddItem closePopup={this.closePopup} saveTask={this.saveTask} />
-            )}
-            <Fab
-              color="primary"
-              aria-label="add"
-              className="AddIcon"
-              title="Add task"
-              onClick={this.handleClick}
-            >
-              <AddIcon />
-            </Fab>
-          </Grid>
-        </Grid>
+          <Grid item md={2} sm={6} xs={9}> */}
+        {this.state.showPopup && (
+          <AddItem closePopup={this.closePopup} saveTask={this.saveTask} />
+        )}
+        <Fab
+          color="primary"
+          aria-label="add"
+          className="AddIcon"
+          title="Add task"
+          onClick={this.handleClick}
+          style={{ position: "fixed", top: "85%", left: "65%" }}
+        >
+          <AddIcon />
+        </Fab>
+        {/* </Grid>
+        </Grid> */}
       </div>
     );
   }

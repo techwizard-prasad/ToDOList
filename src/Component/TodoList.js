@@ -29,20 +29,28 @@ class TodoList extends React.Component {
   };
 
   saveTask = task => {
-    this.setState(prevState => {
-      let newList = prevState.list;
-      newList.push({
-        id: prevState.maxId + 1,
-        task: task,
-        complete: false
+    task = task.trim();
+    if (task !== "") {
+      this.setState(prevState => {
+        let newList = prevState.list;
+        newList.push({
+          id: prevState.maxId + 1,
+          task: task,
+          complete: false
+        });
+        newList = this.sortList(newList);
+        return {
+          list: newList,
+          maxId: prevState.maxId + 1,
+          showPopup: false
+        };
       });
-      newList = this.sortList(newList);
-      return {
-        list: newList,
-        maxId: prevState.maxId + 1,
+    } else {
+      alert("Task is not entered.");
+      this.setState({
         showPopup: false
-      };
-    });
+      });
+    }
   };
 
   sortList(list) {
@@ -102,6 +110,7 @@ class TodoList extends React.Component {
             <Typography variant="h6">There are no tasks.</Typography>
           )}
         </div>
+
         <Grid container>
           <Grid item md={10} sm={6} xs={3}></Grid>
           <Grid item md={2} sm={6} xs={9}>

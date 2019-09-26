@@ -19,24 +19,36 @@ const TodoList = () => {
     setShowPopup(false);
   };
 
-  const saveTask = task => {
-    task = task.trim();
-
-    if (task !== "") {
-      let newList = list;
-      newList.push({
-        id: maxId + 1,
-        task: task,
-        complete: false
+  const saveTask = (task, id) => {
+    if (id) {
+      let newList = list.map(item => {
+        return {
+          id: item.id,
+          task: Number(item.id) === Number(id) ? task : item.task,
+          complete: item.complete
+        };
       });
       newList = sortList(newList);
-
       setList(newList);
-      setMaxId(maxId + 1);
-      setShowPopup(false);
     } else {
-      alert("Task is not entered.");
-      setShowPopup(false);
+      task = task.trim();
+
+      if (task !== "") {
+        let newList = list;
+        newList.push({
+          id: maxId + 1,
+          task: task,
+          complete: false
+        });
+        newList = sortList(newList);
+
+        setList(newList);
+        setMaxId(maxId + 1);
+        setShowPopup(false);
+      } else {
+        alert("Task is not entered.");
+        setShowPopup(false);
+      }
     }
   };
 
@@ -66,9 +78,14 @@ const TodoList = () => {
     setList(newList);
   };
 
-  const listItems = list.map(item => (
-    <div>
-      <Item item={item} deleteTask={deleteTask} completeTask={completeTask} />
+  const listItems = list.map((item, key) => (
+    <div key={key}>
+      <Item
+        item={item}
+        deleteTask={deleteTask}
+        completeTask={completeTask}
+        saveTask={saveTask}
+      />
     </div>
   ));
 
@@ -82,7 +99,9 @@ const TodoList = () => {
         )}
       </div>
 
-      {showPopup && <AddItem closePopup={closePopup} saveTask={saveTask} />}
+      {showPopup && (
+        <AddItem task="" closePopup={closePopup} saveTask={saveTask} />
+      )}
       <Fab
         color="primary"
         aria-label="add"

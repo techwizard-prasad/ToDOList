@@ -80,7 +80,7 @@ body {
 
   opacity: 0.5;
 }
-.deleteButton {
-  padding: 0 !important;
+.actionButton {
+  padding: 10 !important;
   min-width: 0 !important;
 }

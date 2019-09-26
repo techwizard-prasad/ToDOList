@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Card, TextField, Button } from "@material-ui/core";
 
 const AddItem = props => {
-  const [task, setTask] = useState("");
+  const [task, setTask] = useState(props.task);
 
   const handleChange = e => {
     setTask(e.target.value);

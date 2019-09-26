@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Typography, Checkbox, Grid, Button } from "@material-ui/core";
 import DeleteRoundedIcon from "@material-ui/icons/DeleteRounded";
+import EditRoundedIcon from "@material-ui/icons/EditRounded";
+
+import AddItem from "./AddItem";
 
 const Item = props => {
   const [state, setState] = useState({
@@ -8,6 +11,7 @@ const Item = props => {
     task: props.item.task,
     complete: props.item.complete
   });
+  const [showEditPopup, setShowEditPopup] = useState(false);
 
   const handleChange = () => {
     props.completeTask(state.id);
@@ -15,6 +19,25 @@ const Item = props => {
 
   const deleteItem = () => {
     props.deleteTask(state.id);
+  };
+
+  const editItem = e => {
+    setShowEditPopup(true);
+  };
+
+  const closePopup = () => {
+    setShowEditPopup(false);
+  };
+
+  const saveTask = task => {
+    task = task.trim();
+    if (task === "") {
+      alert("Task is not entered.");
+    } else {
+      props.saveTask(task, state.id);
+    }
+
+    closePopup();
   };
 
   useEffect(() => {
@@ -27,7 +50,14 @@ const Item = props => {
 
   return (
     <div>
-      <Grid container alignItems="left" justify="left">
+      {showEditPopup && (
+        <AddItem
+          task={state.task}
+          closePopup={closePopup}
+          saveTask={saveTask}
+        />
+      )}
+      <Grid container>
         <Grid item xs={1} sm={1} md={1}>
           <Checkbox
             type="checkbox"
@@ -36,7 +66,7 @@ const Item = props => {
             color="primary"
           />
         </Grid>
-        <Grid item xs={10} sm={10} md={10}>
+        <Grid item xs={9} sm={9} md={9}>
           <Typography
             className={state.complete && "taskComplete"}
             variant="subtitle2"
@@ -46,8 +76,13 @@ const Item = props => {
           </Typography>
         </Grid>
         <Grid item xs={1} sm={1} md={1}>
-          <Button className="deleteButton" onClick={deleteItem} title="Delete">
-            <DeleteRoundedIcon style={{ marginTop: "10px" }} />
+          <Button className="actionButton" onClick={deleteItem} title="Delete">
+            <DeleteRoundedIcon />
+          </Button>
+        </Grid>
+        <Grid item xs={1} sm={1} md={1}>
+          <Button className="actionButton" onClick={editItem} title="Edit">
+            <EditRoundedIcon />
           </Button>
         </Grid>
       </Grid>
